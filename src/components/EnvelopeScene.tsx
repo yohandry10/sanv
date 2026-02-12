@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, PanInfo } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate, PanInfo } from 'framer-motion';
 import { getValentineData } from '@/data';
 
 interface EnvelopeSceneProps {
   onComplete: () => void;
+  onExtract?: () => void;
   playSound: (s: 'paperRustle' | 'click' | 'stamp') => void;
 }
 
 const data = getValentineData();
 
-const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
+const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps) => {
   const [isFlapOpen, setIsFlapOpen] = useState(false);
   const [isLetterOut, setIsLetterOut] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,19 +31,26 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
   const dragOpacity = useTransform(dragY, [0, -200], [1, 0]);
   const dragScale = useTransform(dragY, [0, -200], [1, 0.9]);
 
-  const handleDragEnd = (_: any, info: PanInfo) => {
-    const threshold = window.innerWidth < 640 ? -50 : -100;
-    if (info.offset.y < threshold) {
-      setIsLetterOut(true);
-      playSound('paperRustle');
-      setTimeout(onComplete, 500);
-    }
+  const extractLetter = () => {
+    if (!isFlapOpen || isLetterOut) return;
+
+    setIsLetterOut(true);
+    onExtract?.();
+    playSound('paperRustle');
+
+    // Programmatic animation for the letter
+    animate(dragY, -300, {
+      duration: 1.2,
+      ease: [0.22, 1, 0.36, 1],
+      onComplete: () => setTimeout(onComplete, 300)
+    });
   };
 
   const openFlap = () => {
     if (isFlapOpen) return;
     playSound('paperRustle');
     setIsFlapOpen(true);
+    onExtract?.();
   };
 
   return (
@@ -108,24 +116,26 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
               y: dragY,
               opacity: dragOpacity,
               scale: dragScale,
-              cursor: isFlapOpen ? 'grab' : 'default',
-              touchAction: 'none'
+              cursor: isFlapOpen ? 'pointer' : 'default',
+              touchAction: 'none',
+              zIndex: isFlapOpen ? 25 : 1
             }}
-            drag={isFlapOpen ? 'y' : false}
-            dragConstraints={{ top: window.innerWidth < 640 ? -400 : -300, bottom: 0 }}
-            dragElastic={0.2}
-            onDragEnd={handleDragEnd}
+            onClick={(e) => {
+              e.stopPropagation();
+              extractLetter();
+            }}
           >
-            <div className="w-full h-full border border-double border-[#d4af37]/30 p-4 flex flex-col items-center justify-center">
+            <div className="w-full h-full border border-double border-[#d4af37]/30 p-4 flex flex-col items-center justify-center relative">
               <p className="font-typewriter text-xs text-muted-foreground tracking-widest uppercase mb-2">
                 Una nota para
               </p>
-              <h2 className="font-script text-3xl sm:text-4xl text-crimson mb-4">
+              <h2 className="font-script text-3xl sm:text-4xl text-crimson mb-2">
                 {data.to}
               </h2>
-              <div className="w-8 h-[1px] bg-crimson/20 my-2" />
-              <p className="font-body-serif text-sm text-foreground/70 italic">
-                "Desliza hacia arriba para leer..."
+
+              <div className="w-8 h-[1px] bg-crimson/20 my-1" />
+              <p className="font-body-serif text-sm text-foreground/70 italic min-h-[1.5rem]">
+                "Toca el sello para leer..."
               </p>
             </div>
           </motion.div>
@@ -200,20 +210,7 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
             />
           </motion.div>
 
-          {/* Wax Seal (Placeholder for HeroObject) */}
-          <motion.div
-            className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 cursor-pointer opacity-0"
-            onClick={(e) => {
-              e.stopPropagation();
-              openFlap();
-            }}
-          >
-            <div className="w-16 h-16 rounded-full bg-crimson shadow-lg flex items-center justify-center border-4 border-l-red-900/20 border-t-red-800/20">
-              <span className="font-blackletter text-2xl text-[#d4af37] drop-shadow-md">
-                {data.initials}
-              </span>
-            </div>
-          </motion.div>
+
 
         </motion.div>
 
@@ -224,7 +221,10 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          {!isFlapOpen ? "Toca el sello para abrir" : "Desliza la carta hacia arriba"}
+          {!isFlapOpen
+            ? "Toca el sello para abrir"
+            : "Vuelve a tocar el sello"
+          }
         </motion.p>
       </div>
 

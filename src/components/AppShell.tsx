@@ -23,6 +23,7 @@ const data = getValentineData();
 const AppShell = () => {
   const [scene, setScene] = useState<Scene>('intro');
   const [targetScene, setTargetScene] = useState<Scene | null>(null);
+  const [hideHeart, setHideHeart] = useState(false);
   const prevSceneRef = useRef<Scene>('intro');
   const { muted, toggleMute, play } = useAudio();
 
@@ -34,6 +35,7 @@ const AppShell = () => {
 
   const goTo = useCallback((s: Scene) => {
     if (s === scene) return;
+    setHideHeart(false); // Reset on scene change
     setTargetScene(s);
   }, [scene]);
 
@@ -43,6 +45,7 @@ const AppShell = () => {
       play('paperRustle');
       setScene(targetScene);
       setTargetScene(null);
+      setHideHeart(false);
     }
   };
 
@@ -57,7 +60,9 @@ const AppShell = () => {
       <BloomExplosion isTriggered={targetScene === 'confirmed'} />
 
       <GlobalIllumination>
-        <HeroObject scene={scene} initials={data.initials} />
+        <div style={{ opacity: hideHeart ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+          <HeroObject scene={scene} initials={data.initials} />
+        </div>
         <AudioController muted={muted} onToggle={toggleMute} />
         {scene !== 'intro' && (
           <NavigationDots current={scene} onNavigate={goTo} />
@@ -68,6 +73,7 @@ const AppShell = () => {
             <PageFlip motionKey="intro" direction={direction}>
               <EnvelopeScene
                 onComplete={() => goTo('edition')}
+                onExtract={() => setHideHeart(true)}
                 playSound={play}
               />
             </PageFlip>
