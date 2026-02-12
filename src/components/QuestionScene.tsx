@@ -20,7 +20,7 @@ const QuestionScene = ({ onAnswer, playSound }: QuestionSceneProps) => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.08 }}
         >
           <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-foreground mb-2">
             ¿Quieres ser mi
@@ -28,7 +28,7 @@ const QuestionScene = ({ onAnswer, playSound }: QuestionSceneProps) => {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.5, type: 'spring', stiffness: 80, damping: 12 }}
+            transition={{ delay: 0.12, type: 'spring', stiffness: 120, damping: 16 }}
           >
             <MagneticText
               text="San Valentín?"
@@ -41,7 +41,7 @@ const QuestionScene = ({ onAnswer, playSound }: QuestionSceneProps) => {
           className="flex flex-col sm:flex-row gap-4 justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.18 }}
         >
           <motion.button
             onClick={handleClick}

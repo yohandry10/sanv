@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, animate, PanInfo } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { getValentineData } from '@/data';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface EnvelopeSceneProps {
   onComplete: () => void;
@@ -14,6 +15,11 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
   const [isFlapOpen, setIsFlapOpen] = useState(false);
   const [isLetterOut, setIsLetterOut] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const hasWindow = typeof window !== 'undefined';
+  const canHover = hasWindow && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const enableDynamicLight = !isMobile && canHover;
+  const floatingPetalCount = isMobile ? 3 : 6;
 
   // Mouse position for dynamic lighting
   const mouseX = useMotionValue(0);
@@ -30,6 +36,10 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
   const dragY = useMotionValue(0);
   const dragOpacity = useTransform(dragY, [0, -200], [1, 0]);
   const dragScale = useTransform(dragY, [0, -200], [1, 0.9]);
+  const dynamicLightBackground = useTransform(
+    [mouseX, mouseY],
+    ([x, y]) => `radial-gradient(circle 300px at ${x}px ${y}px, rgba(255,255,255,0.4), rgba(255,255,255,0))`
+  );
 
   const extractLetter = () => {
     if (!isFlapOpen || isLetterOut) return;
@@ -56,25 +66,22 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
+      onMouseMove={enableDynamicLight ? handleMouseMove : undefined}
       className="flex flex-col items-center justify-center min-h-screen w-full relative perspective-[1000px] overflow-hidden select-none"
     >
       {/* Dynamic Light Overlay */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-20 mix-blend-soft-light"
-        style={{
-          background: useTransform(
-            [mouseX, mouseY],
-            ([x, y]) => `radial-gradient(circle 300px at ${x}px ${y}px, rgba(255,255,255,0.4), rgba(255,255,255,0))`
-          ),
-        }}
-      />
+      {enableDynamicLight && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none z-20 mix-blend-soft-light"
+          style={{ background: dynamicLightBackground }}
+        />
+      )}
 
       {/* Floating petals (Background) */}
-      {[...Array(6)].map((_, i) => (
+      {[...Array(floatingPetalCount)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-primary/10 text-4xl pointer-events-none select-none blur-[1px]"
+          className={`absolute text-primary/10 text-4xl pointer-events-none select-none ${isMobile ? '' : 'blur-[1px]'}`}
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -85,7 +92,7 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
             scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: 5 + Math.random() * 5,
+            duration: 4 + Math.random() * 4,
             repeat: Infinity,
             delay: Math.random() * 2,
           }}
@@ -107,7 +114,7 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
           style={{ boxShadow: '0 14px 30px rgba(95, 70, 75, 0.12), 0 6px 12px rgba(95, 70, 75, 0.08)' }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, type: 'spring' }}
+          transition={{ duration: 0.65, type: 'spring', stiffness: 120, damping: 20 }}
         >
           {/* Back of Envelope */}
           <div className="absolute inset-0 bg-[#e0c4c4] rounded-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]" />

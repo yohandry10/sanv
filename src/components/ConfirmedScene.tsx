@@ -102,7 +102,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.08 }}
         >
           <MagneticText
             text="Confirmado oficialmente:"
@@ -115,7 +115,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
           className="relative mx-auto mb-8 dynamic-shadow"
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, type: 'spring', stiffness: 80, damping: 12 }}
+          transition={{ delay: 0.12, type: 'spring', stiffness: 120, damping: 16 }}
         >
           <svg
             viewBox="0 0 200 180"
@@ -166,7 +166,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
           className="flex justify-center gap-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.18 }}
         >
           {data.initials.split('').filter(c => c !== ' ').slice(0, 2).map((initial, i) => (
             <motion.div
@@ -191,7 +191,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
           data-text={`${data.from} ${data.to}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.24 }}
         >
           {data.from} {data.to}
         </motion.p>
@@ -213,7 +213,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.3 }}
+          transition={{ delay: 0.3 }}
         >
           Compartir 💌
         </motion.button>

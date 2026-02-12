@@ -1,15 +1,22 @@
-import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
+import { motion, type MotionValue, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MagneticTextProps {
     text: string;
     className?: string;
 }
 
-const MagneticCharacter = ({ char, mouseX, mouseY }: { char: string; mouseX: any; mouseY: any }) => {
+interface MagneticCharacterProps {
+    char: string;
+    mouseX: MotionValue<number>;
+    mouseY: MotionValue<number>;
+}
+
+const MagneticCharacter = ({ char, mouseX, mouseY }: MagneticCharacterProps) => {
     const ref = useRef<HTMLSpanElement>(null);
-    const x = useSpring(0, { stiffness: 150, damping: 15 });
-    const y = useSpring(0, { stiffness: 150, damping: 15 });
+    const x = useSpring(0, { stiffness: 170, damping: 20 });
+    const y = useSpring(0, { stiffness: 170, damping: 20 });
 
     useEffect(() => {
         const updatePosition = () => {
@@ -22,11 +29,11 @@ const MagneticCharacter = ({ char, mouseX, mouseY }: { char: string; mouseX: any
             const distanceY = mouseY.get() - centerY;
             const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
 
-            const radius = 100;
+            const radius = 90;
             if (distance < radius) {
                 const force = (radius - distance) / radius;
-                x.set(distanceX * force * 0.5);
-                y.set(distanceY * force * 0.5);
+                x.set(distanceX * force * 0.35);
+                y.set(distanceY * force * 0.35);
             } else {
                 x.set(0);
                 y.set(0);
@@ -54,17 +61,36 @@ const MagneticCharacter = ({ char, mouseX, mouseY }: { char: string; mouseX: any
 };
 
 const MagneticText = ({ text, className = '' }: MagneticTextProps) => {
+    const isMobile = useIsMobile();
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const hasWindow = typeof window !== 'undefined';
+    const canHover = hasWindow && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = hasWindow && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const interactive = !isMobile && canHover && !prefersReducedMotion;
 
     useEffect(() => {
+        if (!interactive) return;
+
+        let rafId = 0;
         const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                mouseX.set(e.clientX);
+                mouseY.set(e.clientY);
+            });
         };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
+
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, [interactive, mouseX, mouseY]);
+
+    if (!interactive) {
+        return <div className={className}>{text}</div>;
+    }
 
     return (
         <div className={className}>

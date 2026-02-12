@@ -36,7 +36,7 @@ const ReasonsScene = ({ onNext, playSound }: ReasonsSceneProps) => {
           className="text-center mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.05 }}
         >
           <p className="font-typewriter text-xs text-muted-foreground uppercase tracking-widest mb-2">
             Exclusiva editorial
@@ -59,7 +59,7 @@ const ReasonsScene = ({ onNext, playSound }: ReasonsSceneProps) => {
               key={i}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
+              transition={{ delay: 0.08 + i * 0.05 }}
             >
               <button
                 onClick={() => revealReason(i)}
@@ -122,7 +122,7 @@ const ReasonsScene = ({ onNext, playSound }: ReasonsSceneProps) => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, type: 'spring', stiffness: 80 }}
+              transition={{ duration: 0.4, type: 'spring', stiffness: 120, damping: 18 }}
             >
               <div className="editorial-line mb-4" />
               <p className="font-editorial text-lg font-bold text-center mb-4 text-foreground">
@@ -136,7 +136,7 @@ const ReasonsScene = ({ onNext, playSound }: ReasonsSceneProps) => {
                     className="bg-primary text-primary-foreground p-3 rounded-lg text-center prismatic-card dynamic-shadow"
                     initial={{ opacity: 0, y: 20, rotate: -5 }}
                     animate={{ opacity: 1, y: 0, rotate: 0 }}
-                    transition={{ delay: 0.2 + i * 0.15, type: 'spring', stiffness: 120 }}
+                    transition={{ delay: 0.08 + i * 0.08, type: 'spring', stiffness: 150, damping: 18 }}
                   >
                     <p className="font-editorial text-xs sm:text-sm font-bold relative z-10">{text}</p>
                   </motion.div>

@@ -19,7 +19,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           className="text-center mb-2"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.05 }}
         >
           <p className="font-typewriter text-[10px] text-muted-foreground tracking-[0.3em] uppercase">
             Edición Especial · {data.date} · Vol. ∞ · N.º 1
@@ -33,7 +33,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, type: 'spring', stiffness: 100 }}
+          transition={{ delay: 0.1, type: 'spring', stiffness: 140, damping: 18 }}
         >
           <MagneticText
             text="Edición de San Valentín"
@@ -48,7 +48,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           className="text-center my-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.15 }}
         >
           <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-foreground leading-tight">
             {data.headline || '¿Serás mi San Valentín?'}
@@ -65,7 +65,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.2 }}
         >
           {/* Left column - editorial text */}
           <div className="space-y-3">
@@ -117,7 +117,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.25 }}
         >
           {[data.coupon1, data.coupon2].map((coupon, i) => (
             <motion.div
@@ -141,7 +141,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           className="text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+          transition={{ delay: 0.3 }}
         >
           <motion.button
             onClick={onNext}
