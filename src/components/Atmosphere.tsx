@@ -128,8 +128,8 @@ const Atmosphere = ({ scene }: AtmosphereProps) => {
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden glass-noise">
       {/* God Rays */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-gradient-radial from-white/20 to-transparent animate-slow-spin origin-center" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.2),transparent_70%)]" />
+        <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0)_70%)] animate-slow-spin origin-center" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.2),rgba(255,255,255,0)_70%)]" />
       </div>
 
       {/* Generative Canvas */}

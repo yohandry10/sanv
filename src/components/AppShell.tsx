@@ -52,7 +52,7 @@ const AppShell = () => {
   const direction = getDirection(scene);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background holographic-sheen" style={{ perspective: '1500px' }}>
+    <div className="relative min-h-screen overflow-hidden bg-background" style={{ perspective: '1500px' }}>
       <GrainOverlay />
       <Atmosphere scene={scene} />
       <ProceduralLace />

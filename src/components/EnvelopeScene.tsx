@@ -65,7 +65,7 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
         style={{
           background: useTransform(
             [mouseX, mouseY],
-            ([x, y]) => `radial-gradient(circle 300px at ${x}px ${y}px, rgba(255,255,255,0.4), transparent)`
+            ([x, y]) => `radial-gradient(circle 300px at ${x}px ${y}px, rgba(255,255,255,0.4), rgba(255,255,255,0))`
           ),
         }}
       />
