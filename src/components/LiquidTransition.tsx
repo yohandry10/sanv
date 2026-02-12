@@ -6,68 +6,64 @@ interface LiquidTransitionProps {
 }
 
 const LiquidTransition = ({ onComplete, isTriggered }: LiquidTransitionProps) => {
-    const layers = [
-        { color: 'hsl(var(--crimson))', delay: 0 },
-        { color: 'rgba(255, 245, 245, 0.4)', delay: 0.1, texture: true }, // Peeling layer
-        { color: 'hsl(var(--secondary))', delay: 0.2 },
-        { color: 'hsl(var(--primary))', delay: 0.3 },
-    ];
-
-    const paths = {
-        initial: "M 0 100 V 100 Q 50 100 100 100 V 100 z",
-        full: "M 0 100 V 0 Q 50 0 100 0 V 100 z",
-    };
-
     return (
         <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
             <svg className="absolute w-0 h-0">
-                <filter id="inkBleed">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="4" seed="1" />
-                    <feDisplacementMap in="SourceGraphic" scale="25" />
-                </filter>
+                <defs>
+                    <clipPath id="heartIris" clipPathUnits="objectBoundingBox">
+                        <path d="M.5.3 C.5.3 .45.2 .35.2 C.25.2 .2.28 .2.4 C.2.6 .5.8 .5.8 C.5.8 .8.6 .8.4 C.8.28 .75.2 .65.2 C.55.2 .5.3 .5.3" />
+                    </clipPath>
+                    <filter id="prismatic">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur" />
+                        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="gooey" />
+                    </filter>
+                </defs>
             </svg>
 
             <AnimatePresence>
                 {isTriggered && (
-                    <div className="absolute inset-0">
-                        {layers.map((layer, i) => (
-                            <motion.svg
+                    <motion.div
+                        className="absolute inset-0 flex items-center justify-center bg-background z-[100]"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 1 }}
+                        transition={{ duration: 0.1 }}
+                        onAnimationComplete={() => {
+                            setTimeout(() => {
+                                if (onComplete) onComplete();
+                            }, 1000);
+                        }}
+                    >
+                        {/* Progressive Heart Layers */}
+                        {[
+                            { color: 'hsl(var(--crimson))', delay: 0, scale: 30 },
+                            { color: 'hsl(var(--primary))', delay: 0.15, scale: 25 },
+                            { color: 'white', delay: 0.3, scale: 20 },
+                        ].map((layer, i) => (
+                            <motion.div
                                 key={i}
-                                className="absolute inset-0 w-full h-full"
-                                viewBox="0 0 100 100"
-                                preserveAspectRatio="none"
+                                className="absolute"
                                 style={{
-                                    filter: i === 0 ? 'url(#inkBleed)' : 'none',
-                                    mixBlendMode: layer.texture ? 'screen' : 'normal'
+                                    width: '100px',
+                                    height: '100px',
+                                    backgroundColor: layer.color,
+                                    clipPath: 'url(#heartIris)',
+                                    filter: 'url(#prismatic)',
+                                    zIndex: 100 - i
                                 }}
-                            >
-                                <motion.path
-                                    initial={{ d: paths.initial }}
-                                    animate={{
-                                        d: paths.full,
-                                        rotateZ: i % 2 === 0 ? [0, 5, 0] : [0, -5, 0],
-                                        scale: [1, 1.05, 1],
-                                        x: [0, i * 2, 0]
-                                    }}
-                                    exit={{ d: paths.initial }}
-                                    transition={{
-                                        duration: 1.2,
-                                        delay: layer.delay,
-                                        ease: "easeInOut",
-                                    }}
-                                    onAnimationComplete={() => {
-                                        if (i === layers.length - 1 && onComplete) {
-                                            onComplete();
-                                        }
-                                    }}
-                                    fill={layer.color}
-                                />
-                                {layer.texture && (
-                                    <rect width="100" height="100" fill="url(#lacePattern)" opacity="0.1" />
-                                )}
-                            </motion.svg>
+                                initial={{ scale: 0, rotate: 0 }}
+                                animate={{
+                                    scale: layer.scale,
+                                    rotate: i % 2 === 0 ? [0, 10, 0] : [0, -10, 0]
+                                }}
+                                transition={{
+                                    duration: 1.2,
+                                    delay: layer.delay,
+                                    ease: [0.76, 0, 0.24, 1]
+                                }}
+                            />
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </div>

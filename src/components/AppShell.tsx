@@ -60,7 +60,11 @@ const AppShell = () => {
       <BloomExplosion isTriggered={targetScene === 'confirmed'} />
 
       <GlobalIllumination>
-        <div style={{ opacity: hideHeart ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+        <div style={{
+          opacity: hideHeart ? 0 : 1,
+          visibility: hideHeart ? 'hidden' : 'visible',
+          transition: 'opacity 0.3s ease, visibility 0.3s ease'
+        }}>
           <HeroObject scene={scene} initials={data.initials} />
         </div>
         <AudioController muted={muted} onToggle={toggleMute} />

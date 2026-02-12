@@ -12,58 +12,58 @@ interface PageFlipProps {
 const pageVariants: Record<FlipDirection, Variants> = {
   forward: {
     initial: {
-      rotateY: 90,
+      rotateY: 45,
       opacity: 0,
       scale: 0.95,
       transformOrigin: 'left center',
-      filter: 'brightness(0.6)',
+      filter: 'brightness(0.8) blur(10px)',
     },
     animate: {
       rotateY: 0,
       opacity: 1,
       scale: 1,
       transformOrigin: 'left center',
-      filter: 'brightness(1)',
+      filter: 'brightness(1) blur(0px)',
     },
     exit: {
-      rotateY: -90,
+      rotateY: -45,
       opacity: 0,
       scale: 0.95,
       transformOrigin: 'right center',
-      filter: 'brightness(0.6)',
+      filter: 'brightness(0.8) blur(10px)',
     },
   },
   backward: {
     initial: {
-      rotateY: -90,
+      rotateY: -45,
       opacity: 0,
       scale: 0.95,
       transformOrigin: 'right center',
-      filter: 'brightness(0.6)',
+      filter: 'brightness(0.8) blur(10px)',
     },
     animate: {
       rotateY: 0,
       opacity: 1,
       scale: 1,
       transformOrigin: 'right center',
-      filter: 'brightness(1)',
+      filter: 'brightness(1) blur(0px)',
     },
     exit: {
-      rotateY: 90,
+      rotateY: 45,
       opacity: 0,
       scale: 0.95,
       transformOrigin: 'left center',
-      filter: 'brightness(0.6)',
+      filter: 'brightness(0.8) blur(10px)',
     },
   },
 };
 
 const transition = {
   type: 'spring' as const,
-  stiffness: 60,
-  damping: 18,
+  stiffness: 50,
+  damping: 25,
   mass: 1,
-  duration: 0.7,
+  duration: 1,
 };
 
 const PageFlip = ({ children, motionKey, direction = 'forward' }: PageFlipProps) => {
