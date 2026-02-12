@@ -88,7 +88,7 @@ const PageFlip = ({ children, motionKey, direction = 'forward' }: PageFlipProps)
         exit={{ opacity: 0.4 }}
         transition={{ duration: 0.3 }}
         style={{
-          background: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0.15) 100%)',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.02) 40%, rgba(0,0,0,0.05) 100%)',
         }}
       />
 

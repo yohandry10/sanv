@@ -99,7 +99,8 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
 
         {/* Envelope Body */}
         <motion.div
-          className="relative w-[320px] h-[220px] sm:w-[400px] sm:h-[280px] shadow-2xl"
+          className="relative w-[320px] h-[220px] sm:w-[400px] sm:h-[280px]"
+          style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, type: 'spring' }}

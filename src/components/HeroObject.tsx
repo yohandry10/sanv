@@ -27,7 +27,8 @@ const HeroObject = ({ scene, initials }: HeroObjectProps) => {
 
     return (
         <motion.div
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none flex items-center justify-center shadow-xl border-2 border-white/20"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none flex items-center justify-center border-2 border-white/20"
+            style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}
             variants={variants}
             animate={scene}
             transition={{
