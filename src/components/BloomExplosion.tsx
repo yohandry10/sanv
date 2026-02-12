@@ -25,7 +25,7 @@ const BloomExplosion = ({ isTriggered }: BloomExplosionProps) => {
                     rotation: Math.random() * 360,
                     size: 10 + Math.random() * 20,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    type: Math.random() > 0.3 ? 'petal' : 'flower'
+                    type: (Math.random() > 0.3 ? 'petal' : 'flower') as 'petal' | 'flower'
                 };
             });
             setParticles(newParticles);

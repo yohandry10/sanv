@@ -109,6 +109,7 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
               opacity: dragOpacity,
               scale: dragScale,
               cursor: isFlapOpen ? 'grab' : 'default',
+              touchAction: 'none'
             }}
             drag={isFlapOpen ? 'y' : false}
             dragConstraints={{ top: window.innerWidth < 640 ? -400 : -300, bottom: 0 }}
