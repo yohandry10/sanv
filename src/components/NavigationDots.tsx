@@ -16,8 +16,8 @@ const NavigationDots = ({ current, onNavigate }: NavigationDotsProps) => {
 
   return (
     <div
-      className={`fixed z-50 flex ${isMobile ? 'right-3 top-1/2 -translate-y-1/2 flex-col gap-2' : 'bottom-6 left-1/2 -translate-x-1/2 gap-2.5'}`}
-      style={isMobile ? { paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' } : undefined}
+      className={`fixed left-1/2 -translate-x-1/2 z-50 flex ${isMobile ? 'bottom-2 gap-2' : 'bottom-6 gap-2.5'}`}
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       role="navigation"
       aria-label="Navegación de escenas"
     >

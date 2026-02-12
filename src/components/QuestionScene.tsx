@@ -14,7 +14,7 @@ const QuestionScene = ({ onAnswer, playSound }: QuestionSceneProps) => {
 
   return (
     <div
-      className="min-h-screen paper-bg flex items-center justify-center px-4"
+      className="min-h-screen paper-bg flex items-center justify-center px-4 pt-6 pb-24 sm:pb-8"
     >
       <div className="text-center max-w-md">
         <motion.div

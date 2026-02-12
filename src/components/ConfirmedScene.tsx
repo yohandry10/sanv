@@ -58,7 +58,7 @@ const ConfirmedScene = ({ playSound }: ConfirmedSceneProps) => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden glass-noise"
+      className="min-h-screen flex items-center justify-center px-4 pt-6 pb-24 sm:pb-8 relative overflow-hidden glass-noise"
       style={{ backgroundColor: 'hsl(var(--crimson))' }}
     >
       {/* Background texture */}

@@ -28,7 +28,7 @@ const ReasonsScene = ({ onNext, playSound }: ReasonsSceneProps) => {
 
   return (
     <div
-      className="min-h-screen paper-bg flex items-center justify-center px-4 py-8 overflow-auto"
+      className="min-h-screen paper-bg flex items-center justify-center px-4 pt-8 pb-24 sm:pb-8 overflow-auto"
     >
       <div className="max-w-lg w-full">
         {/* Title */}
