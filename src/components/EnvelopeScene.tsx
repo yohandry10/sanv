@@ -111,8 +111,8 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
           <motion.div
             className="absolute left-4 right-4 bg-[#fdfbf7] shadow-md rounded-sm p-6 flex flex-col items-center text-center space-y-4"
             style={{
-              top: '10px',
-              height: '90%',
+              top: '20px',
+              height: '95%',
               y: dragY,
               opacity: dragOpacity,
               scale: dragScale,
@@ -120,36 +120,33 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
               touchAction: 'none',
               zIndex: isFlapOpen ? 25 : 1
             }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             onClick={(e) => {
               e.stopPropagation();
               extractLetter();
             }}
           >
-            <div className="w-full h-full border border-double border-[#d4af37]/30 p-4 flex flex-col items-center justify-center relative">
-              <p className="font-typewriter text-xs text-muted-foreground tracking-widest uppercase mb-2">
+            <motion.div
+              className="w-full h-full border border-double border-[#d4af37]/30 p-4 flex flex-col items-center justify-center relative"
+              animate={{ opacity: isFlapOpen ? 1 : 0 }}
+            >
+              <p className="font-typewriter text-[10px] text-muted-foreground tracking-widest uppercase mb-1">
                 Una nota para
               </p>
-              <h2 className="font-script text-3xl sm:text-4xl text-crimson mb-2">
+              <h2 className="font-script text-3xl text-crimson mb-2">
                 {data.to}
               </h2>
 
               <div className="w-8 h-[1px] bg-crimson/20 my-1" />
-              <p className="font-body-serif text-sm text-foreground/70 italic min-h-[1.5rem]">
-                "Toca el sello para leer..."
+              <p className="font-body-serif text-xs text-foreground/70 italic min-h-[1.5rem]">
+                "Toca la carta para leer..."
               </p>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Envelope Front (Bottom Packet) */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              clipPath: 'polygon(0 100%, 50% 50%, 100% 100%, 0 100%, 0 0, 100% 0, 100% 100%)', // This clip path is tricky, let's use CSS borders for standard envelope look or layers
-            }}
-          >
-            {/* Creating standard envelope folds using absolute divs to avoid clip-path complexity issues with z-index */}
-          </div>
-
+          {/* ... folds ... */}
           {/* Left Fold */}
           <div
             className="absolute top-0 bottom-0 left-0 w-full rounded-bl-lg"
@@ -210,8 +207,6 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
             />
           </motion.div>
 
-
-
         </motion.div>
 
         {/* Instruction Text */}
@@ -223,7 +218,7 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
         >
           {!isFlapOpen
             ? "Toca el sello para abrir"
-            : "Vuelve a tocar el sello"
+            : "Toca la carta para leer"
           }
         </motion.p>
       </div>
