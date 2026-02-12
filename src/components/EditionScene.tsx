@@ -22,7 +22,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           transition={{ delay: 0.2 }}
         >
           <p className="font-typewriter text-[10px] text-muted-foreground tracking-[0.3em] uppercase">
-            Edición Especial · {data.date} · Vol. ∞ · N.° 1
+            Edición Especial · {data.date} · Vol. ∞ · N.º 1
           </p>
         </motion.div>
 
@@ -36,7 +36,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           transition={{ delay: 0.4, type: 'spring', stiffness: 100 }}
         >
           <MagneticText
-            text="Valentine Edition"
+            text="Edición de San Valentín"
             className="font-blackletter text-4xl sm:text-5xl text-primary text-center mb-1 chromatic-text"
           />
         </motion.div>
@@ -51,10 +51,10 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           transition={{ delay: 0.6 }}
         >
           <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-foreground leading-tight">
-            {data.headline}
+            {data.headline || '¿Serás mi San Valentín?'}
           </h2>
           <h2 className="font-script text-5xl sm:text-6xl text-primary mt-1">
-            {data.subtitle}
+            {data.subtitle || 'Para mi persona favorita'}
           </h2>
         </motion.div>
 
@@ -70,7 +70,7 @@ const EditionScene = ({ onNext }: EditionSceneProps) => {
           {/* Left column - editorial text */}
           <div className="space-y-3">
             <p className="font-body-serif text-sm text-foreground/80 leading-relaxed first-letter:text-3xl first-letter:font-editorial first-letter:text-primary first-letter:float-left first-letter:mr-1 first-letter:mt-0.5">
-              Querido/a {data.to}, esta edición está dedicada enteramente a ti.
+              Querida {data.to}, esta edición está dedicada enteramente a ti.
               Cada palabra, cada detalle, ha sido cuidadosamente pensado para
               recordarte lo especial que eres.
             </p>
