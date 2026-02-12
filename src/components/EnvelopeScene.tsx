@@ -49,7 +49,7 @@ const EnvelopeScene = ({ onComplete, playSound }: EnvelopeSceneProps) => {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="flex flex-col items-center justify-center min-h-screen w-full relative perspective-[1000px] overflow-hidden"
+      className="flex flex-col items-center justify-center min-h-screen w-full relative perspective-[1000px] overflow-hidden select-none"
     >
       {/* Dynamic Light Overlay */}
       <motion.div
