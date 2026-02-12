@@ -95,18 +95,22 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
       ))}
 
       {/* Envelope Container */}
-      <div className="relative z-10 group cursor-pointer" onClick={!isFlapOpen ? openFlap : undefined}>
+      <div
+        className="relative z-10 group cursor-pointer"
+        style={{ WebkitTapHighlightColor: 'transparent' }}
+        onClick={!isFlapOpen ? openFlap : undefined}
+      >
 
         {/* Envelope Body */}
         <motion.div
           className="relative w-[320px] h-[220px] sm:w-[400px] sm:h-[280px]"
-          style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }}
+          style={{ boxShadow: '0 14px 30px rgba(95, 70, 75, 0.12), 0 6px 12px rgba(95, 70, 75, 0.08)' }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, type: 'spring' }}
         >
           {/* Back of Envelope */}
-          <div className="absolute inset-0 bg-[#e0c4c4] rounded-lg shadow-inner" />
+          <div className="absolute inset-0 bg-[#e0c4c4] rounded-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]" />
 
           {/* Letter (Draggable) */}
           <motion.div
@@ -172,8 +176,7 @@ const EnvelopeScene = ({ onComplete, onExtract, playSound }: EnvelopeSceneProps)
             style={{
               clipPath: 'polygon(0 100%, 50% 50%, 100% 100%)',
               background: 'linear-gradient(0deg, hsl(var(--envelope-pink)), hsl(var(--envelope-flap)))',
-              zIndex: 21,
-              filter: 'drop-shadow(0 -2px 2px rgba(0,0,0,0.05))'
+              zIndex: 21
             }}
           />
 
